@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import AccountMenu from "../../components/NavBar"
+import NavBar from "../../components/navBar/NavBar"
 import Footer from "../../../../shared/FooterVista";
 import Sidebar from '../../../components/sideBar/SideBar';
 import { Grid } from '@mui/material';
@@ -15,7 +15,9 @@ export const HomeUser = ({dataPost}) => {
   useEffect(() => {
     info();
   }, [])
-  console.log(data)
+
+
+
   return (
 
     <Grid container style={{ height: "100vh", position: "relative" }}>
@@ -31,7 +33,8 @@ export const HomeUser = ({dataPost}) => {
         flexDirection: "column",
         overflowX: "hidden",
       }}>
-        <AccountMenu />
+        <NavBar
+        filterDataNav={setData} />
         <Grid container spacing={1} style={{
           display: "flex",
           position: "relative",
@@ -41,7 +44,7 @@ export const HomeUser = ({dataPost}) => {
           marginBottom: "20px",
         }}>
           {
-            (data.length < 2) ?
+            (data.length < 1) ?
               <h1>Cargando..</h1> :
               data.map((info, index) => {
                 

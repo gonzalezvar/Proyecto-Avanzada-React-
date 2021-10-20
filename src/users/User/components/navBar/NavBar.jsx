@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -11,6 +12,8 @@ import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import axios from "axios"
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -52,7 +55,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 
-export default function AccountMenu() {
+export default function NavBar({filterDataNav}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -75,6 +78,18 @@ export default function AccountMenu() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const [filterData, setfilterData] = useState({name:""})
+
+  const filterDataPost = async() => {
+    try{
+        const data = await axios.post("http://localhost:3001/filterNameProduct",filterData);
+        filterDataNav(data.data)
+    }catch(e){
+        console.log(e)
+    }
+  }
+
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -117,11 +132,11 @@ export default function AccountMenu() {
     >
     </Menu>
   );
-
+console.log(filterData)
   return (
-    <Box style={{width:"82%", alignSelf:"flex-end"}} sx={{ flexGrow: 1 }}>
-      <AppBar style={{backgroundColor: '#37474f'}} position="relative">
-        <Toolbar style={{marginLeft:"10%"}}>
+    <Box style={{ width: "82%", alignSelf: "flex-end" }} sx={{ flexGrow: 1 }}>
+      <AppBar style={{ backgroundColor: '#37474f' }} position="relative">
+        <Toolbar style={{ marginLeft: "10%" }}>
           <Typography
             variant="h6"
             noWrap
@@ -130,25 +145,29 @@ export default function AccountMenu() {
           >
             &nbsp;
           </Typography>
-          <Search style={{width:"50%"}}>
+          <Search style={{ width: "50%" }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
               inputProps={{ 'aria-label': 'search' }}
-              style={{width:"50%"}}
+              style={{ width: "50%" }}
+              value={filterData.name}
+              onChange={(e)=>{
+                setfilterData({name:e.target.value})
+              }}
             />
           </Search>
           <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <ArrowForwardIosIcon/>
-            </IconButton>
+            size="large"
+            edge="end"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            color="inherit"
+            onClick={filterDataPost}
+          >
+            <ArrowForwardIosIcon />
+          </IconButton>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton>
