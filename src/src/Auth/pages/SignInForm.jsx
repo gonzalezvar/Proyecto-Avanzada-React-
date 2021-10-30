@@ -69,7 +69,6 @@ export default function SignIn({ setData }) {
     sendDataPost();
   }, [login])
 
-  
   const direction = (post.role == "usuario") ? "/HomeUser" : (post.role == "vendedor") ? "/HomeSeller" : (post.role == "admin") ? "/Admin" : "#";
   setData(post);
   return (

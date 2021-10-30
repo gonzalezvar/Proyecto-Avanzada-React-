@@ -21,8 +21,6 @@ const redirect = () => {
     window.location.href="http://localhost:3000/";
   },1500)
 }
-
-console.log(dataPost);
   return (
     <>
     {(dataPost)?

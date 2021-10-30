@@ -79,7 +79,7 @@ export default function NavBar({filterDataNav}) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const [filterData, setfilterData] = useState({nameProduct:""})
+  const [filterData, setfilterData] = useState({name:""})
 
   const filterDataPost = async() => {
     try{
@@ -157,7 +157,7 @@ console.log(filterData)
               style={{ width: "50%" }}
               value={filterData.name}
               onChange={(e)=>{
-                setfilterData({nameProduct:e.target.value})
+                setfilterData({name:e.target.value})
               }}
             />
           </Search>
