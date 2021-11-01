@@ -43,7 +43,7 @@ const App = () => {
         </Route>
         <Route path="/HomeSeller">
           <HomeSeller
-            id={userData.id}
+            dataSeller={userData}
           />
         </Route>
       </Switch>

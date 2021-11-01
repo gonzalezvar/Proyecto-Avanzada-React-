@@ -7,32 +7,46 @@ import { CardComponent } from './User/components/card/CardComponent';
 import { makeStyles } from '@material-ui/styles';
 import { Grid, FormControl, Input, InputLabel} from '@material-ui/core';
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 480,
-    height: 380,
-    bgcolor: 'background.paper',
-    backDrop: {
-        backdropFilter: "blur(3px)",
-        backgroundColor: 'rgba(0,0,30,0.4)'
-    },
-    boxShadow: 24,
-    borderRadius: "20px",
-    p: 4,
-    display: "flex",
-};
 
-const card = {
-    position: 'absolute',
-    top: '-3%',
-    left: '50%',
-}
+const ModelCard = ({open,setOpen, cardName,cardDescription,cardPrice,cardImage,cardStock,cardId,reloadProducts}) => {
 
-const ModelCard = ({open,setOpen, cardName,cardDescription,cardPrice,cardImage,cardStock,cardId}) => {
+    const [visibility, setVisibility] = React.useState("visbility")
+    const style = {
+        visibility:visibility,
+        position: 'absolute',
+        top: '250px',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 544,
+        height: 444,
+        bgcolor: 'background.paper',
+        backDrop: {
+            backdropFilter: "blur(3px)",
+            backgroundColor: 'rgba(0,0,30,0.4)'
+        },
+        boxShadow: 24,
+        borderRadius: "20px",
+        p: 4,
+        display: "flex",
+    };
+    
+    const successUpt = () => {
+        Swal.fire({
+            icon: 'info',
+            title: 'Has editado el producto correctamente',
+            position:"center-bottom"
+        })
+        }
+    
+        
+    const card = {
+        position: 'absolute',
+        top: '-3%',
+        left: '50%',
+    }
+    
     const [data, setdata] = React.useState({
         name:cardName,
         description:cardDescription,
@@ -58,6 +72,15 @@ const ModelCard = ({open,setOpen, cardName,cardDescription,cardPrice,cardImage,c
             console.log(e);
         }
     }
+
+    const groupFunctions = () => {
+        updateProducts();
+        successUpt();
+        setOpen(false);
+        reloadProducts();
+        
+    }
+
 
     const handleClose = () => setOpen(false);
     return (
@@ -95,15 +118,15 @@ const ModelCard = ({open,setOpen, cardName,cardDescription,cardPrice,cardImage,c
                             <Input id="my-input" value={data.discount}  onChange={(e)=>setdata({...data,discount:e.target.value})} aria-describedby="my-helper-text" />
                         </FormControl>
                         <FormControl>
-                            <Button variant='contained' size='large' onClick={updateProducts} style={{width:"100px",marginTop:"40px",marginLeft:"35%",borderRadius:"5px",height:"50px"}}>Actualizar</Button>
+                            <Button variant='contained' size='large' onClick={groupFunctions} style={{width:"100px",marginTop:"40px",marginLeft:"35%",borderRadius:"5px",height:"50px"}}>Actualizar</Button>
                         </FormControl>
                     </Box>
                     <Box sx={card}>
                         <CardComponent 
-                            name={cardName}
-                            description={cardDescription}
-                            value={cardPrice}
-                            image={cardImage}
+                            name={data.name}
+                            description={data.description}
+                            value={data.value}
+                            image={data.image}
                         />
                     </Box>
                 </Box>
