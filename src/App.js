@@ -20,36 +20,26 @@ import { HomeUser } from './users/User/pages/homeUser/HomeUser';
 
 
 const App = () => {
-  const [userData, setUserData] = useState({ id: "" })
+
 
   return (
-
-
 
     <Router>
       <Switch>
         <Route path="/" exact>
-          <SignIn
-            setData={setUserData}
-          />
+          <SignIn />
         </Route>
         <Route path="/RegisterPage">
           <SignUp />
         </Route>
         <Route path="/HomeUser">
-          <HomeUser
-            dataPost={userData}
-          />
+          <HomeUser />
         </Route>
         <Route path="/HomeSeller">
-          <HomeSeller
-            dataSeller={userData}
-          />
+          <HomeSeller />
         </Route>
       </Switch>
     </Router>
-
-
 
   )
 }

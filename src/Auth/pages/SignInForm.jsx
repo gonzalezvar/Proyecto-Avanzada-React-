@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from "axios";
 import { Link as RouterLink } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function SignIn({ setData }) {
+export default function SignIn() {
   const classes = useStyles();
   const [login, setLogin] = useState({ email: "", password: "", })
   const [post, setPost] = useState({ role: "" });
@@ -59,7 +60,7 @@ export default function SignIn({ setData }) {
   const sendDataPost = async () => {
     try {
       const data = await axios.post("http://localhost:3001/login", login);
-      setPost(data.data)
+      setPost(data.data);
     } catch (e) {
       console.log(e)
     }
@@ -71,7 +72,6 @@ export default function SignIn({ setData }) {
 
   
   const direction = (post.role == "usuario") ? "/HomeUser" : (post.role == "vendedor") ? "/HomeSeller" : (post.role == "admin") ? "/Admin" : "#";
-  setData(post);
   return (
     <div className="center">
       <Container className="form" component="main" maxWidth="xs">
@@ -122,6 +122,16 @@ export default function SignIn({ setData }) {
                 color="primary"
                 // href={direction}
                 to={direction}
+                onClick={()=>{
+                  if(direction=="#"){
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Usuario no existe',
+                      position: 'center',
+                  })
+                  };
+                  window.sessionStorage.setItem("data", JSON.stringify(post))
+                }}
                 component={RouterLink}
                 className={classes.submit}
               >
@@ -144,7 +154,7 @@ export default function SignIn({ setData }) {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/RegisterPage" variant="body2">
+                <Link component={RouterLink} to="/RegisterPage"  variant="body2">
                   {"No tiene cuenta? Pues creese una"}
                 </Link>
               </Grid>

@@ -5,7 +5,8 @@ import Sidebar from '../../../components/sideBar/SideBar';
 import { Grid } from '@mui/material';
 import { CardComponent } from '../../components/card/CardComponent';
 
-export const HomeUser = ({dataPost}) => {
+export const HomeUser = () => {
+
   const [data, setData] = useState([{}])
   const info = async () => {
     const url = await fetch("http://localhost:3001/searchProduct");
@@ -22,7 +23,8 @@ const redirect = () => {
   },1500)
 }
 
-console.log(dataPost);
+
+  const dataPost = JSON.parse(window.sessionStorage.getItem("data"));
   return (
     <>
     {(dataPost)?

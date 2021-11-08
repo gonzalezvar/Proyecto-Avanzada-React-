@@ -1,10 +1,9 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { CardComponent } from './User/components/card/CardComponent';
-import { makeStyles } from '@material-ui/styles';
+
 import { Grid, FormControl, Input, InputLabel} from '@material-ui/core';
 import axios from 'axios'
 import Swal from 'sweetalert2'
@@ -12,9 +11,7 @@ import Swal from 'sweetalert2'
 
 const ModelCard = ({open,setOpen, cardName,cardDescription,cardPrice,cardImage,cardStock,cardId,reloadProducts}) => {
 
-    const [visibility, setVisibility] = React.useState("visbility")
     const style = {
-        visibility:visibility,
         position: 'absolute',
         top: '250px',
         left: '50%',
@@ -29,9 +26,10 @@ const ModelCard = ({open,setOpen, cardName,cardDescription,cardPrice,cardImage,c
         boxShadow: 24,
         borderRadius: "20px",
         p: 4,
-        display: "flex",
     };
     
+
+
     const successUpt = () => {
         Swal.fire({
             icon: 'info',
@@ -55,6 +53,7 @@ const ModelCard = ({open,setOpen, cardName,cardDescription,cardPrice,cardImage,c
         image:cardImage,
     })
     
+ 
     const newDataCard = {
         nameProduct:data.name,
         description:data.description,
@@ -64,6 +63,7 @@ const ModelCard = ({open,setOpen, cardName,cardDescription,cardPrice,cardImage,c
         stock:cardStock,
     }
 
+    console.log(newDataCard)
     const updateProducts = async () => {
         try {
             const resp = await axios.post("http://localhost:3001/updateProduct", newDataCard);
@@ -78,7 +78,6 @@ const ModelCard = ({open,setOpen, cardName,cardDescription,cardPrice,cardImage,c
         successUpt();
         setOpen(false);
         reloadProducts();
-        
     }
 
 
@@ -103,7 +102,7 @@ const ModelCard = ({open,setOpen, cardName,cardDescription,cardPrice,cardImage,c
                         </FormControl>
                         <FormControl>
                             <InputLabel htmlFor="my-input"> url de la imagen</InputLabel>
-                            <Input id="my-input" value={data.image} onChange={(e)=>setdata({...data,image:e.target.value})} aria-describedby="my-helper-text" />
+                            <Input id="my-input" value={cardImage} onChange={(e)=>setdata({...data,image:e.target.value})} aria-describedby="my-helper-text" />
                         </FormControl>
                         <FormControl>
                             <InputLabel htmlFor="my-input">stock</InputLabel>

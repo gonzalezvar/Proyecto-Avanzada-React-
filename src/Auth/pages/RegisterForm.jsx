@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,7 +18,8 @@ import FormControl from '@material-ui/core/FormControl';
 import { blue } from '@material-ui/core/colors';
 import { useStyles } from "./EstilosForm"
 import axios from "axios"
-
+import Swal from 'sweetalert2'
+import { Link as RouterLink } from "react-router-dom";
 
 export default function SignUp() {
     const classes = useStyles();
@@ -26,37 +27,65 @@ export default function SignUp() {
     const baseUrl = "http://localhost:3001/register";
 
 
-
+    const [trigger, setTrigger] = useState(0)
     const [register, setRegister] = useState({
         email: "",
         password: "",
         nombre: "",
         apellido: "",
         rol: "",
-        shop:"",
+        shop: undefined,
     })
     const checkForm = (e) => {
         (e.target.id === 'email') ? setRegister({ ...register, email: e.target.value }) :
         (e.target.id === 'password') ? setRegister({ ...register, password: e.target.value }) :
         (e.target.id === 'nombre') ? setRegister({ ...register, nombre: e.target.value }) :
         (e.target.id === 'apellido') ? setRegister({ ...register, apellido: e.target.value }) :
-        (e.target.id==='shop')?setRegister({...register,shop:e.target.value}):setRegister({ ...register, rol: e.target.value })
+        (e.target.id === 'shop') ? setRegister({ ...register, shop: e.target.value }) : setRegister({ ...register, rol: e.target.value })
 
     }
-    function createPost() {
-        axios
-            .post(baseUrl, {
-                email: register.email,
-                password: register.password,
-                nombre: register.nombre,
-                apellido: register.apellido,
-                rol: register.rol,
-            })
-            .then((response) => {
-                setPost(response.data);
-            });
+
+    let dataRegister = {
+        email: register.email,
+        password: register.password,
+        name: register.nombre,
+        lastName: register.apellido,
+        role: register.rol,
+        shop: register.shop
     }
- ;
+    const createPost = async () => {
+        try {
+            const dataR = await axios.post(baseUrl, dataRegister)
+            setPost(dataR.data)
+            console.log(dataR.data)
+            if (dataR.data === true) {
+                Swal.fire('Usuario registrado correctamente')
+            } else {
+                Swal.fire('Presentas problemas para registrar el usuario')
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+        // axios
+        //     .post(baseUrl, {
+        //         email: register.email,
+        //         password: register.password,
+        //         name: register.nombre,
+        //         lastName: register.apellido,
+        //         role: register.rol,
+        //         shop: register.shop
+        //     })
+        //     .then((response) => {
+        //         setPost(response.data);
+        //         console.log(post)
+        //     });
+        //     setTrigger(1)
+    }
+
+    // const showResponse = (post) => {
+    //     Swal.fire(post)
+    // }
     const checkSeller = () => {
         if (register.rol == "Vendedor") {
             return (
@@ -79,18 +108,22 @@ export default function SignUp() {
                 </Grid>)
         }
     }
+    useEffect(() => {
+        createPost()
+    }, [trigger])
 
     console.log()
     return (
         <div className="center">
             <Container className="form" component="main" maxWidth="xs">
+                {/* <Button onClick={createPost}>verificar</Button> */}
                 <CssBaseline />
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign up
+                        Regístrate
                     </Typography>
                     <form className={classes.form} onSubmit={(e) => e.preventDefault()}>
                         <Grid container spacing={2}>
@@ -161,21 +194,31 @@ export default function SignUp() {
                             </Grid>
                             {checkSeller()}
                         </Grid>
-      
+
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
-                            onClick={createPost}
+                            onClick={()=>{
+                                createPost();
+                                setRegister({
+                                    email: "",
+                                    password: "",
+                                    nombre: "",
+                                    apellido: "",
+                                    rol: "",
+                                    shop: undefined,
+                                })
+                            }}
                         >
                             registrarse
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="/" variant="body2">
-                                    Si tienes una cuenta? Inicia Seccion
+                                <Link component={RouterLink}  to="/" variant="body2">
+                                    Ya tienes una cuenta? Inicia Sesión
                                 </Link>
                             </Grid>
                         </Grid>

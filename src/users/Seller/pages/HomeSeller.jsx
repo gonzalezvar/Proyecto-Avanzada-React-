@@ -6,14 +6,16 @@ import NavBar from '../../User/components/navBar/NavBar'
 import axios from 'axios'
 import { CardComponent } from '../../User/components/card/CardComponent'
 
-export const HomeSeller = ({ dataSeller }) => {
+export const HomeSeller = () => {
 
+    const dataSeller = JSON.parse(window.sessionStorage.getItem("data"));
     const [cardData, setCardData] = useState();
 
     const products = async () => {
         try {
             const resp = await axios.post("http://localhost:3001/productOwner", { id: dataSeller.id });
-            setCardData(resp.data)
+            window.sessionStorage.setItem("products", JSON.stringify(resp.data))
+            setCardData(JSON.parse(window.sessionStorage.getItem("products")));
         } catch (e) {
             console.log(e);
         }
