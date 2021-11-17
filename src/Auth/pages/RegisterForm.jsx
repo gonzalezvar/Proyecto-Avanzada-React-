@@ -188,8 +188,8 @@ export default function SignUp() {
                                 </InputLabel>
                                 <Select labelWidth="12" labelId="simple-select" id="rol" value={register.rol} onChange={checkForm} className="select">
                                     <MenuItem value={"rol"} variant="outlined" disabled>Selecciona tu ROL</MenuItem>
-                                    <MenuItem value={"Vendedor"}>Vendedor</MenuItem>
-                                    <MenuItem value={"Comprador"}>Comprador</MenuItem>
+                                    <MenuItem value={"vendedor"}>Vendedor</MenuItem>
+                                    <MenuItem value={"usuario"}>Comprador</MenuItem>
                                 </Select>
                             </Grid>
                             {checkSeller()}

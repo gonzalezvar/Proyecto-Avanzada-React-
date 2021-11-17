@@ -2,8 +2,8 @@ import Dashboard from "@material-ui/icons/Dashboard";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
+import { HomeSeller } from "../../Seller/pages/HomeSeller";
 
-// core components/views for Admin layout
 
 
 const dashboardRoutes = [
@@ -11,14 +11,16 @@ const dashboardRoutes = [
     path: "/dashboard",
     name: "Perfil",
     icon: AccountCircleIcon,
+   
   },
   {
-    path: "/dashboard",
+    path: "/HomeUser",
     name: "Productos",
     icon: Dashboard,
+
   },
   {
-    path: "/dashboard",
+    path: "/ShoppingCart",
     name: "Carrito de Compras",
     icon: AddShoppingCartIcon,
   },

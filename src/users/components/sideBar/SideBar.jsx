@@ -9,9 +9,11 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Icon from "@material-ui/core/Icon";
+import { NavLink } from "react-router-dom";
 // core components
 import styles from "./styles";
 import dashboardRoutes from "./route";
+import { Link as routerLink } from "react-router-dom";
 
 const useStyles = makeStyles(styles);
 
@@ -34,6 +36,12 @@ export default function Sidebar(props) {
           [" " + classes.whiteFont]: activeRoute(prop.layout + prop.path),
         });
         return (
+          <NavLink
+          to={prop.path}
+          className={classes.item}
+          activeClassName="active"
+          key={key}
+        >
           <ListItem button className={classes.itemLink + listItemClasses}>
             {typeof prop.icon === "string" ? (
               <Icon
@@ -41,7 +49,7 @@ export default function Sidebar(props) {
                   [classes.itemIconRTL]: props.rtlActive,
                 })}
               >
-                {prop.icon}
+                {prop.icon} 
               </Icon>
             ) : (
               <prop.icon
@@ -58,6 +66,7 @@ export default function Sidebar(props) {
               disableTypography={true}
             />
           </ListItem>
+          </NavLink>
         );
       })}
     </List>

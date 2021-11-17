@@ -16,6 +16,7 @@ import ModelCard from './users/ModelCard.jsx';
 
 import { HomeSeller } from './users/Seller/pages/HomeSeller.jsx';
 import { HomeUser } from './users/User/pages/homeUser/HomeUser';
+import { ShoppingCart } from './users/User/pages/shoppingCart/ShoppingCart.jsx';
 
 
 
@@ -37,6 +38,9 @@ const App = () => {
         </Route>
         <Route path="/HomeSeller">
           <HomeSeller />
+        </Route>
+        <Route path="/ShoppingCart">
+          <ShoppingCart />
         </Route>
       </Switch>
     </Router>

@@ -67,6 +67,8 @@ const redirect = () => {
                     discount = {info.price}
                     image={info.image}
                     value={info.price}
+                    id={info._id}
+                    dataCard={info}
                   />
                   </Grid>
                 ) 

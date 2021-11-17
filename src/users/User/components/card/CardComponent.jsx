@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -15,6 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import axios from 'axios'
 import ModelCard from '../../../ModelCard';
+import { ShoppingCart } from '../../pages/shoppingCart/ShoppingCart';
 
 
 const useStyles = makeStyles(({
@@ -69,11 +70,11 @@ const useStyles = makeStyles(({
 
 
 
-const CardComponent = ({ name, description, price, discount, image, edit, id, reloadProducts }) => {
+const CardComponent = ({ name, description, price, discount, image, edit, id, reloadProducts, dataCard }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-
-
+  
+  
   const productDelete = async () => {
     try {
       const resp = await axios.post("http://localhost:3001/deleteProduct", { id: id });
@@ -87,7 +88,8 @@ const CardComponent = ({ name, description, price, discount, image, edit, id, re
     productDelete();
     reloadProducts();
   }
-  console.log(image)
+
+  
   const classes = useStyles();
   return (
     <>
@@ -116,7 +118,7 @@ const CardComponent = ({ name, description, price, discount, image, edit, id, re
           <CardMedia
             className={classes.media}
             component="img"
-            title="asas"
+            title={name}
             image={image}
           />
         </Box>
@@ -137,11 +139,19 @@ const CardComponent = ({ name, description, price, discount, image, edit, id, re
           </Typography>
           {(edit == true) ?
             <IconButton aria-label="add to favorites" size="small">
-              <CreateIcon onClick={handleOpen} />
+              <CreateIcon onClick={handleOpen}  />
             </IconButton>
             :
             <IconButton aria-label="add to favorites" size="small">
-              <AddCircleIcon className={classes.btn} />
+              <AddCircleIcon className={classes.btn} onClick={()=>{
+                const data = [];
+                JSON.parse(window.sessionStorage.getItem("selectedProducts"))?.forEach((elem)=>{
+                  elem.cant=0;
+                 data.push(elem) 
+                })
+                data.push(dataCard);
+                window.sessionStorage.setItem("selectedProducts", JSON.stringify(data))
+              }}/>
 
             </IconButton>
           }
@@ -163,6 +173,7 @@ const CardComponent = ({ name, description, price, discount, image, edit, id, re
 
     </>
   )
+ 
 }
 
 export { CardComponent };
