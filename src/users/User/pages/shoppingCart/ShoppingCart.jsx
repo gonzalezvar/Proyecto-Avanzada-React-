@@ -34,8 +34,20 @@ const Cell = {
 
 export const ShoppingCart = () => {
     const classes = styless();
-    const dataProduct = JSON.parse(window.sessionStorage.getItem("selectedProducts"));
-    const [cant, setCant] = useState(1)
+    const defaultProduct = [{"description":"prueba","idOwner":"","image":"","nameProduct":"","price":"","stock":"","id":""}]
+    const dataProduct = JSON.parse(window.sessionStorage.getItem("selectedProducts")) || defaultProduct;
+    const arrayObjectId = [];
+    dataProduct.map((product,index)=>{
+            arrayObjectId.push({index:index, cant:1});
+    })
+    const [cant, setCant] = useState([...arrayObjectId])
+    
+    const findValue = (index) => {
+        let value = cant.find(elem => elem.index == index);
+        return value;
+    }
+
+    let total=0;
     return (
         <Grid container style={{ height: "100vh", position: "relative" }}>
             <Sidebar
@@ -82,8 +94,10 @@ export const ShoppingCart = () => {
                                 <TableBody>
                                     {
                                         (dataProduct) ?
+                                            (dataProduct.length==1 && dataProduct[0].description == "prueba")?<h1>No han agregado productos</h1>:
                                             dataProduct.map((book,index) => {
-                                                
+                                                let price = book.price * findValue(index).cant;
+                                                total = parseInt(price) + total;
                                                 return (
                                                     <TableRow key={index}>
                                                         <TableCell variant="body" className={classes.centerItems}>
@@ -98,12 +112,12 @@ export const ShoppingCart = () => {
                                                         </TableCell>
                                                         <TableCell variant="body" className={classes.centerItems} >
                                                             <Box >
-                                                                <Input id={"id"+index}   className={classes.input} type="number" />
+                                                                <Input value={findValue(index).cant}   onChange={(e)=>{setCant([...cant,findValue(index).cant=e.target.value])}} className={classes.input} type="number" />
                                                             </Box>
                                                         </TableCell>
                                                         <TableCell variant="body" className={classes.centerItems}>
                                                             <Box >
-                                                                <h3>Total: $ {book.price * parseInt(document.querySelector("id"+index))}</h3>
+                                                                <h3>Total: $ {price}</h3>
                                                             </Box>
                                                         </TableCell>
                                                     </TableRow>
@@ -115,10 +129,10 @@ export const ShoppingCart = () => {
                                 <TableFooter>
                                     <TableRow>
                                         <TableCell>
-                                            <h3>Valor a Pagar:</h3>
+                                            <h3>Valor total a Pagar:</h3>
                                         </TableCell>
                                         <TableCell>
-                                            <h3>$140</h3>
+                                            <h3>{total}</h3>
                                         </TableCell>
                                         <TableCell>
 
