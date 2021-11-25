@@ -4,12 +4,12 @@ import Footer from "../../../../shared/FooterVista";
 import Sidebar from '../../../components/sideBar/SideBar';
 import { Grid } from '@mui/material';
 import { CardComponent } from '../../components/card/CardComponent';
-
+import BaseUrl from '../../../../shared/BaseUrl';
 export const HomeUser = () => {
 
   const [data, setData] = useState([{}])
   const info = async () => {
-    const url = await fetch("http://localhost:3001/searchProduct");
+    const url = await fetch(BaseUrl+"/searchProduct");
     const informacion = await url.json();
     setData(informacion)
   }

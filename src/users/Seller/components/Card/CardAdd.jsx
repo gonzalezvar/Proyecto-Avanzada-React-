@@ -12,6 +12,7 @@ import { Grid, FormControl, Input, InputLabel } from '@material-ui/core';
 import { CardComponent } from '../../../User/components/card/CardComponent';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import BaseUrl from '../../../../shared/BaseUrl';
 import { RepeatOneSharp } from '@material-ui/icons';
 const isNameProduct = (nameProduct) => {
     if (nameProduct.length > 5 && nameProduct !== '') {
@@ -124,7 +125,7 @@ const CardAddComponent = ({ id, cardData, products }) => {
 
     const setProduct = async () => {
         try {
-            const resp = await axios.post("http://localhost:3001/insertProducts", data);
+            const resp = await axios.post(BaseUrl+"/insertProducts", data);
             setResponse(resp.data)
         } catch (e) {
             console.log(e);

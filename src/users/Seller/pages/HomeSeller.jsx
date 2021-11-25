@@ -5,6 +5,7 @@ import { Grid } from '@material-ui/core'
 import NavBar from '../../User/components/navBar/NavBar'
 import axios from 'axios'
 import { CardComponent } from '../../User/components/card/CardComponent'
+import BaseUrl from '../../../shared/BaseUrl'
 
 export const HomeSeller = () => {
 
@@ -13,7 +14,7 @@ export const HomeSeller = () => {
 
     const products = async () => {
         try {
-            const resp = await axios.post("http://localhost:3001/productOwner", { id: dataSeller.id });
+            const resp = await axios.post(BaseUrl+"/productOwner", { id: dataSeller.id });
             window.sessionStorage.setItem("products", JSON.stringify(resp.data))
             setCardData(JSON.parse(window.sessionStorage.getItem("products")));
         } catch (e) {

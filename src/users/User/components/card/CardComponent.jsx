@@ -1,4 +1,5 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
+import BaseUrl from '../../../../shared/BaseUrl';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -16,6 +17,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import axios from 'axios'
 import ModelCard from '../../../ModelCard';
 import { ShoppingCart } from '../../pages/shoppingCart/ShoppingCart';
+import Swal from 'sweetalert2';
 
 
 const useStyles = makeStyles(({
@@ -73,11 +75,18 @@ const useStyles = makeStyles(({
 const CardComponent = ({ name, description, price, discount, image, edit, id, reloadProducts, dataCard }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  
-  
+
+  const successAdd = () => {
+    Swal.fire({
+      icon: 'success',
+      title: 'Agregado al carrito',
+      position: "center-bottom"
+    })
+  }
+
   const productDelete = async () => {
     try {
-      const resp = await axios.post("http://localhost:3001/deleteProduct", { id: id });
+      const resp = await axios.post(BaseUrl+"/deleteProduct", { id: id });
       console.log(resp.data);
     } catch (e) {
       console.log(e);
@@ -89,7 +98,7 @@ const CardComponent = ({ name, description, price, discount, image, edit, id, re
     reloadProducts();
   }
 
-  
+
   const classes = useStyles();
   return (
     <>
@@ -139,41 +148,42 @@ const CardComponent = ({ name, description, price, discount, image, edit, id, re
           </Typography>
           {(edit == true) ?
             <IconButton aria-label="add to favorites" size="small">
-              <CreateIcon onClick={handleOpen}  />
+              <CreateIcon onClick={handleOpen} />
             </IconButton>
             :
             <IconButton aria-label="add to favorites" size="small">
-              <AddCircleIcon className={classes.btn} onClick={()=>{
+              <AddCircleIcon className={classes.btn} onClick={() => {
                 const data = [];
-                JSON.parse(window.sessionStorage.getItem("selectedProducts"))?.forEach((elem)=>{
-                  elem.cant=0;
-                 data.push(elem) 
+                JSON.parse(window.sessionStorage.getItem("selectedProducts"))?.forEach((elem) => {
+                  elem.cant = 0;
+                  data.push(elem)
                 })
                 data.push(dataCard);
-                window.sessionStorage.setItem("selectedProducts", JSON.stringify(data))
-              }}/>
+                window.sessionStorage.setItem("selectedProducts", JSON.stringify(data));
+                successAdd();
+              }} />
 
             </IconButton>
           }
-          
-            <ModelCard
-            
-              open={open}
-              setOpen={setOpen}
-              cardName={name}
-              cardDescription={description}
-              cardPrice={price}
-              cardImage={image}
-              cardId={id}
-              reloadProducts={reloadProducts}
-            />
+
+          <ModelCard
+
+            open={open}
+            setOpen={setOpen}
+            cardName={name}
+            cardDescription={description}
+            cardPrice={price}
+            cardImage={image}
+            cardId={id}
+            reloadProducts={reloadProducts}
+          />
 
         </CardActions>
       </Card>
 
     </>
   )
- 
+
 }
 
 export { CardComponent };

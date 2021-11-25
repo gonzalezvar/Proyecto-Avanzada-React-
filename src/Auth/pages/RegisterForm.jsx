@@ -20,11 +20,12 @@ import { useStyles } from "./EstilosForm"
 import axios from "axios"
 import Swal from 'sweetalert2'
 import { Link as RouterLink } from "react-router-dom";
+import BaseUrl from '../../shared/BaseUrl';
 
 export default function SignUp() {
     const classes = useStyles();
     const [post, setPost] = useState()
-    const baseUrl = "http://localhost:3001/register";
+    const baseUrl = BaseUrl+"/register";
 
 
     const [trigger, setTrigger] = useState(0)

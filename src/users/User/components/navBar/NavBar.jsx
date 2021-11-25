@@ -13,7 +13,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import axios from "axios"
-
+import { Button } from '@material-ui/core';
+import { Link as routerLink } from 'react-router-dom';
+import BaseUrl from '../../../../shared/BaseUrl';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -69,6 +71,9 @@ export default function NavBar({filterDataNav}) {
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
+  const resetSession = () => {
+    window.sessionStorage.clear();
+  }
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -83,7 +88,7 @@ export default function NavBar({filterDataNav}) {
 
   const filterDataPost = async() => {
     try{
-        const data = await axios.post("http://localhost:3001/filterNameProduct",filterData);
+        const data = await axios.post(BaseUrl+"/filterNameProduct",filterData);
         filterDataNav(data.data)
     }catch(e){
         console.log(e)
@@ -152,6 +157,7 @@ console.log(filterData)
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
+            
             <StyledInputBase
               inputProps={{ 'aria-label': 'search' }}
               style={{ width: "50%" }}
@@ -161,7 +167,7 @@ console.log(filterData)
               }}
             />
           </Search>
-
+          <Button component={routerLink} to="/" onCLick={()=>{window.sessionStorage.clear()}}>Salir</Button>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton>

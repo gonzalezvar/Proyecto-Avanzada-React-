@@ -8,7 +8,7 @@ import { HomeSeller } from "../../Seller/pages/HomeSeller";
 
 const dashboardRoutes = [
   {
-    path: "/dashboard",
+    path: "/Pefil",
     name: "Perfil",
     icon: AccountCircleIcon,
    
@@ -25,7 +25,7 @@ const dashboardRoutes = [
     icon: AddShoppingCartIcon,
   },
   {
-    path: "/dashboard",
+    path: "/CheckYourBills",
     name: "Conoce tus gastos",
     icon: AccountBalanceWalletIcon,
   },

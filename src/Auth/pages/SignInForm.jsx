@@ -15,7 +15,7 @@ import Container from '@material-ui/core/Container';
 import axios from "axios";
 import { Link as RouterLink } from "react-router-dom";
 import Swal from 'sweetalert2';
-
+import BaseUrl from '../../shared/BaseUrl';
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -43,7 +43,7 @@ export default function SignIn() {
   const [login, setLogin] = useState({ email: "", password: "", })
   const [post, setPost] = useState({ role: "" });
   // const [state, setstate] = useState()
-  const baseUrl = "http://localhost:3001/login"
+  const baseUrl = BaseUrl+"/login"
 
   const getData = (e) => {
     (e.target.id === "email") ?
@@ -59,7 +59,7 @@ export default function SignIn() {
 
   const sendDataPost = async () => {
     try {
-      const data = await axios.post("http://localhost:3001/login", login);
+      const data = await axios.post(baseUrl, login);
       setPost(data.data);
     } catch (e) {
       console.log(e)
@@ -70,7 +70,9 @@ export default function SignIn() {
     sendDataPost();
   }, [login])
 
-  
+  if(window.sessionStorage.getItem("data")){
+    window.sessionStorage.clear();
+  }
   const direction = (post.role == "usuario") ? "/HomeUser" : (post.role == "vendedor") ? "/HomeSeller" : (post.role == "admin") ? "/Admin" : "#";
   return (
     <div className="center">
